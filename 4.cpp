@@ -27,21 +27,23 @@ int main(){
 	std::cout<<"\n";
 
 	//*************************Divide&conquer********************
-	int32_t SIZE = 1000000;
+	int32_t SIZE = 10000;
 	int32_t arr[SIZE];
 	for(int i = 0; i<SIZE; i++) arr[i] = i;
 	std::cout<<"sum of array 0,1 ... "<<SIZE<<" is "<<sum(arr, SIZE)<<std::endl;
 	std::cout<<"number of elements in array size of "<<SIZE<<" is "<<cntElems(arr, SIZE)<<std::endl;
-	std::cout<<"max of array 0,1 ... "<<SIZE<<" is "<<findMax(arr, SIZE)<<std::endl;
+	std::cout<<"max in array 0,1 ... "<<SIZE<<" is "<<findMax(arr, SIZE)<<std::endl;
 
 	int32_t target = 666;
 	std::cout<<"in array 0,1 ... "<<SIZE<<" the number "<<target<<" "<<((binarySearch(arr, arr+SIZE-1, target) != nullptr)? "found":"not found")<<std::endl;
 	std::cout<<"\n";
 
 	//***************************Quick sort**********************
-	std::vector<int32_t> vec;
-	for (int i = 0; i<0; i++) vec.push_back(i);
-	qsort(vec);
+	std::vector<uint32_t> vec;
+	for (int i = SIZE; i>0; i--) vec.push_back(i);
+	qsort<uint32_t>(vec);
+	for (int i = 0; i<SIZE; i++) std::cout<<vec[i]<<" ";
+	std::cout<<std::endl;
 	return 0;
 }
 
@@ -90,14 +92,15 @@ std::vector<T> qsort(std::vector<T>& source, std::vector<T> smaller, std::vector
 	}
 	else{
 		auto pivot = source[0];
-		for (auto &i: source) {
-			if(i < pivot) 	smaller.push_back(i);
-			else		bigger.push_back(i);
+		for (int i = 1; i<source.size(); i++) {
+			if(source[i] < pivot) 	smaller.push_back(source[i]);
+			else		bigger.push_back(source[i]);
 		}
 		smaller = qsort(smaller);
 		bigger = qsort(bigger);
 		smaller.push_back(pivot);
 		smaller.insert(smaller.end(), bigger.begin(), bigger.end());
-		return smaller;
+		source = smaller;
+		return source;
 	}
 }
